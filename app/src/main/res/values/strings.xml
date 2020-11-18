@@ -8,5 +8,8 @@
     <string name="btn_text_save">SAVE</string>
     <string name="note_happy_place_not_found">Happy place not found ... Kindly add the places</string>
     <string name="image_content_description">image</string>
+    <string name="google_maps">AIzaSyBi0o9h7gxXD1-4joAOBzh_GNjmD6XGjmg</string>
+    <string name="btn_text_view_on_map">VIEW ON MAP</string>
+    <string name="add_place_select_current_location_text">SELECT CURRENT LOCATION</string>
     <!--END-->
 </resources>

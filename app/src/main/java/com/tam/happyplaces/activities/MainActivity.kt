@@ -7,12 +7,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.tam.happyplaces.R
 import com.tam.happyplaces.adapters.HappyPlacesAdapter
 import com.tam.happyplaces.database.DataBaseHelper
 import com.tam.happyplaces.models.HappyPlaceModel
+import com.tam.happyplaces.utils.Chech
+import com.tam.happyplaces.utils.SwipeToEditCallBack
+
 import kotlinx.android.synthetic.main.activity_main.*
+
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +46,29 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+        val editSwipeHandler = object : SwipeToEditCallBack(this){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = rv_happyPlaces.adapter as HappyPlacesAdapter
+                adapter.notifyEditItem(this@MainActivity,viewHolder.adapterPosition,
+                    ADD_PALCE_ACTIVITY_REQUEST_CODE)
+            }
+        }
+
+        val editItemTouch = ItemTouchHelper(editSwipeHandler)
+        editItemTouch.attachToRecyclerView(rv_happyPlaces)
+
+
+        val deleteSwipeHandler = object : Chech(this){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = rv_happyPlaces.adapter as HappyPlacesAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+                getPlaceRecords()
+            }
+        }
+
+        val deleteItemTouch = ItemTouchHelper(deleteSwipeHandler)
+        deleteItemTouch.attachToRecyclerView(rv_happyPlaces)
+
     }
 
 

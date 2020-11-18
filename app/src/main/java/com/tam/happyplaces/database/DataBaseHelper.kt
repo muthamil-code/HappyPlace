@@ -42,6 +42,42 @@ class DataBaseHelper (context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         db!!.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS)
         onCreate(db)
     }
+
+    fun deleteEmployee(happy: HappyPlaceModel):Int{
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(KEY_ID, happy.id) // EmpModelClass UserId
+        // Deleting Row
+        val success = db.delete(TABLE_CONTACTS,"id="+happy.id,null)
+        //2nd argument is String containing nullColumnHack
+        db.close() // Closing database connection
+        return success
+    }
+
+
+
+    fun updatePlace(happy: HappyPlaceModel):Int{
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+
+        contentValues.put(KEY_TITLE, happy.title)
+        contentValues.put(KEY_IMAGE,happy.image)
+        contentValues.put(KEY_DESCRIPTION, happy.description)
+        contentValues.put(KEY_DATE,happy.date)
+        contentValues.put(KEY_LOCATION, happy.location)
+        contentValues.put(KEY_LATITUDE,happy.latitude)
+        contentValues.put(KEY_LONGITUDE,happy.longitude)
+
+
+
+        // Updating Row
+        val success = db.update(TABLE_CONTACTS, contentValues,"id="+happy.id,null)
+        //2nd argument is String containing nullColumnHack
+        db.close() // Closing database connection
+        return success
+    }
+
+
     fun addPlaces(happy: HappyPlaceModel):Long{
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -58,6 +94,7 @@ class DataBaseHelper (context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         db.close()
         return success
     }
+
     fun viewHappyPlaces():ArrayList<HappyPlaceModel>{
         val happyList:ArrayList<HappyPlaceModel> = ArrayList<HappyPlaceModel>()
         val selectQuery = "SELECT  * FROM $TABLE_CONTACTS"
